@@ -1,0 +1,112 @@
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css');
+
+* {
+   font-family: 'Times New Roman', Times, serif;
+}
+
+.flex-box-container {
+   display: flex;
+   border: 1px solid black;
+   padding: 10px;
+   flex-wrap: wrap;
+   flex-direction: row;
+   justify-content: space-around;
+}
+
+.flex-box-row-1 {
+   display: inline-block;
+   margin-left: 15px;
+}
+
+.flex-box-row-2 {
+   display: inline-block;
+   width: 20%;
+   /* font-weight: 700; */
+   /* border: 1px solid black; */
+   margin: 0 auto;
+}
+
+h1 {
+   text-align: center;
+   padding: 10px;
+}
+.flex-box-row-2 h5 {
+   font-family: bolder;
+}
+
+.flex-box-row-2 #xaxis-data-columns,
+#yaxis-data-columns,
+#dropdown-charts-list {
+   z-index: 1002;
+   position: relative;
+}
+
+.flex-box-upload {
+   margin-left: 15px;
+}
+
+.flex-box-datatable {
+   border: 0.7px solid black;
+
+   max-height: 500px;
+}
+/* TAB-2 */
+#tab-1,
+#tab-2 {
+   /* background-color: aliceblue; */
+   font-weight: bold;
+   font-size: 20px;
+   line-height: 5vh;
+   padding: 0;
+}
+.tabs {
+   height: 5vh;
+}
+
+.tabs:hover {
+   color: blue;
+}
+#date-picker-range-output {
+   font-size: small;
+}
+
+.flex-box-date-picker,
+.flex-box-input-stock {
+   display: flex;
+   flex-wrap: wrap;
+   /* border: 1px solid black; */
+   flex-direction: column;
+   width: 20%;
+   justify-content: center;
+}
+
+.flex-box-input-stock,
+.flex-box-radioitems,
+.flex-box-date-picker > h5 {
+   text-align: center;
+   vertical-align: top;
+}
+
+#radioitems-period-update {
+   text-align: center;
+   border: 0.3px solid;
+   border-color: lightgray;
+   padding-right: 2px;
+}
+
+.flex-box-date-picker {
+   display: flex;
+   flex-wrap: wrap;
+   /* border: 1px solid black; */
+   flex-direction: column;
+   width: fit-content;
+   justify-content: center;
+}
+
+.flex-box-radioitems {
+   display: flex;
+   flex-wrap: wrap;
+   flex-direction: column;
+   width: 22%;
+   justify-content: center;
+}
