@@ -105,10 +105,7 @@ second_tab_layout = html.Div([
 
     html.Div([
         html.Div(id="live-update-output-graph"),
-        dcc.Interval(id="live-update-interval",
-                     n_intervals=0,
-                     interval=10
-                     )
+
     ])
 ])
 

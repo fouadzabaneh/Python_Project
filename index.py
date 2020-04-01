@@ -5,8 +5,7 @@ from dash.dependencies import Input, Output
 
 import callbacks
 from app import app
-from layout import second_tab_layout
-
+from layout import basic_layout
 
 app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
@@ -17,7 +16,7 @@ app.layout = html.Div([
               [Input('url', 'pathname')])
 def display_page(pathname):
     if pathname == '/':
-        return second_tab_layout
+        return basic_layout
     else:
         return "404"
 

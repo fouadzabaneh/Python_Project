@@ -212,11 +212,12 @@ def update_text(start_date, end_date):
                Input('radioitems-period-update', 'value')],
               [State('live-update-output-graph', 'children')])
 def disply_live_graph(stock_name, start_date, end_date, interval_time, children):
-    stock_name = 'bb.to'
     try:
         if stock_name != "" and start_date is not None and end_date is not None:
-            start_date = dt.strptime(start_date.split("T")[0], "%Y-%m-%d")
-            end_date = dt.strptime(end_date.split("T")[0], "%Y-%m-%d")
+
+            start_date = dt.strptime(start_date.split("T")[
+                                     0], "%Y-%m-%d").date()
+            end_date = dt.strptime(end_date.split("T")[0], "%Y-%m-%d").date()
 
             stock_df = web.DataReader(
                 stock_name, 'yahoo', start=start_date, end=end_date)
@@ -239,11 +240,6 @@ def disply_live_graph(stock_name, start_date, end_date, interval_time, children)
                                 title=stock_name.upper() + " Stock"
                             )
                         }, animate=True),
-
-                    dcc.Interval(id="live-update-interval",
-                                 n_intervals=0,
-                                 interval=10
-                                 )
                 ])
             )
 
@@ -265,10 +261,6 @@ def disply_live_graph(stock_name, start_date, end_date, interval_time, children)
                             )
                         }, animate=True),
 
-                    dcc.Interval(id="live-update-interval",
-                                 n_intervals=0,
-                                 interval=interval_time*1000
-                                 )
                 ])
             )
 
@@ -285,14 +277,12 @@ def disply_live_graph(stock_name, start_date, end_date, interval_time, children)
                             ],
                             'layout': go.Layout(hovermode="closest",
                                                 title=stock_name.upper() + " Stock")
-                        }, animate=True),
+                        }, animate=True)]))
 
-                    dcc.Interval(id="live-update-interval",
-                                 n_intervals=0,
-                                 interval=interval_time*1000
-                                 )
-                ])
-            )
+            children.append(
+                dcc.Interval(
+                    n_intervals=0,
+                    interval=interval_time*1000))
 
             return children
     except Exception as e:
