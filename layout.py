@@ -103,12 +103,28 @@ second_tab_layout = html.Div([
     ], className="flex-box-container"),
     html.Br(),
 
-    html.Div([
-        html.Div(id="live-update-output-graph"),
-        dcc.Interval(id="live-update-interval",
-                     n_intervals=0,
-                     interval=10
-                     )
+    html.Div(id="flex-box-graph-container", children=[
+
+        html.Div([
+            dcc.Graph(id="live-graph-1", animate=True),
+            dcc.Interval(id="live-update-interval-1",
+                         n_intervals=0,
+                         interval=1000)
+        ]),
+
+        html.Div([
+            dcc.Graph(id="live-graph-2", animate=True),
+            dcc.Interval(id="live-update-interval-2",
+                         n_intervals=0,
+                         interval=1000)
+        ]),
+
+        html.Div([
+            dcc.Graph(id="live-graph-3", animate=True),
+            dcc.Interval(id="live-update-interval-3",
+                         n_intervals=0,
+                         interval=1000)
+        ])
     ])
 ])
 
