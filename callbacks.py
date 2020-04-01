@@ -202,16 +202,17 @@ def update_text(start_date, end_date):
         return string_prefix
 
 
-#### Update Graph-1 #####
+#### Update Graph #####
 
 
-@app.callback(Output('live-graph1', 'figure'),
-              [Input('live-stock-name', 'value'),
+@app.callback(Output('live-update-output-graph', 'children'),
+              [Input('input-stock-name', 'value'),
                Input('date-picker-stock', 'start_date'),
                Input('date-picker-stock', 'end_date'),
-               Input('radioitems-period-update', 'value')])
-def disply_live_graph_1(stock_name, start_date, end_date, period_value):
-
+               Input('radioitems-period-update', 'value')],
+              [State('live-update-output-graph', 'children')])
+def disply_live_graph(stock_name, start_date, end_date, interval_time, children):
+    stock_name = 'bb.to'
     try:
         if stock_name != "" and start_date is not None and end_date is not None:
             start_date = dt.strptime(start_date.split("T")[0], "%Y-%m-%d")
@@ -220,18 +221,80 @@ def disply_live_graph_1(stock_name, start_date, end_date, period_value):
             stock_df = web.DataReader(
                 stock_name, 'yahoo', start=start_date, end=end_date)
 
-            return {
-                'data': [
-                    go.Candlestick(x=stock_df.index,
-                                   open=stock_df['Open'],
-                                   close=stock_df['Close'],
-                                   low=stock_df['Low'],
-                                   high=stock_df['High'])],
-                'layout': go.Layout(xaxis_rangeslider_visible=False,
-                                    hovermode='closest',
-                                    title=stock_name.upper() + " Stock")
-            }
+            children = []
 
+            children.append(
+                html.Div([
+                    dcc.Graph(
+                        figure={
+                            'data': [
+                                go.Candlestick(x=stock_df.index,
+                                               open=stock_df['Open'],
+                                               close=stock_df['Close'],
+                                               low=stock_df['Low'],
+                                               high=stock_df['High'])],
+                            'layout': go.Layout(
+                                xaxis_rangeslider_visible=False,
+                                hovermode='closest',
+                                title=stock_name.upper() + " Stock"
+                            )
+                        }, animate=True),
+
+                    dcc.Interval(id="live-update-interval",
+                                 n_intervals=0,
+                                 interval=10
+                                 )
+                ])
+            )
+
+            children.append(
+                html.Div([
+                    dcc.Graph(
+                        figure={
+                            'data': [
+                                go.Ohlc(x=stock_df.index,
+                                        open=stock_df['Open'],
+                                        close=stock_df['Close'],
+                                        low=stock_df['Low'],
+                                        high=stock_df['High'])
+                            ],
+                            'layout': go.Layout(
+                                xaxis_rangeslider_visible=False,
+                                hovermode='closest',
+                                title=stock_name.upper() + " Stock"
+                            )
+                        }, animate=True),
+
+                    dcc.Interval(id="live-update-interval",
+                                 n_intervals=0,
+                                 interval=interval_time*1000
+                                 )
+                ])
+            )
+
+            children.append(
+                html.Div([
+                    dcc.Graph(
+                        figure={
+                            'data': [
+                                go.Scatter(x=stock_df.index,
+                                           y=stock_df[i],
+                                           name=i.title(),
+                                           mode="lines")
+                                for i in stock_df.columns if i not in ['Volume', 'Adj Close']
+                            ],
+                            'layout': go.Layout(hovermode="closest",
+                                                title=stock_name.upper() + " Stock")
+                        }, animate=True),
+
+                    dcc.Interval(id="live-update-interval",
+                                 n_intervals=0,
+                                 interval=interval_time*1000
+                                 )
+                ])
+            )
+
+            return children
     except Exception as e:
         print(e)
 
